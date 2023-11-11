@@ -10,6 +10,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import {MatButtonModule} from '@angular/material/button';
     DragDropModule,
     CdkAccordionModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

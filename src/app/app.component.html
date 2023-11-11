@@ -2,11 +2,31 @@
 <div class="board">
   <div class = "header">
     <h1>{{title}}</h1>
-    <button mat-raised-button color="primary">Add Board</button>
+    <form class="example-form" *ngIf = "isAdd;else showAddButton" 
+        #createBoardForm="ngForm" (ngSubmit)="createBoard(createBoardForm);">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Board Name</mat-label>
+            <input matInput placeholder="Name"
+            name="addBoardName"
+            (click) = "$event.stopPropagation();"
+            maxLength = "40" ngModel>
+          </mat-form-field>
+          <div class="controls">
+            <button type="submit" id = "save-btn">
+              <mat-icon aria-hidden="false" aria-label="save" fontIcon="save"></mat-icon>
+            </button>
+            <button id = "cancel-btn" (click) = "handleCancel('add')">
+              <mat-icon aria-hidden="false" aria-label="cancel" fontIcon="cancel"></mat-icon>
+            </button>
+          </div>
+    </form>
+    <ng-template #showAddButton>
+      <button mat-raised-button color="primary" (click) = "addBoardHandler()">Add Board</button>
+    </ng-template>
   </div>
-  <cdk-accordion class="example-accordion">
+  <cdk-accordion class="example-accordion" *ngIf = "this.boardService.boards$ | async as boards">
     <cdk-accordion-item
-      *ngFor="let item of items; let index = index;"
+      *ngFor="let board of boards; let index = index;trackBy:identify"
       #accordionItem="cdkAccordionItem"
       class="example-accordion-item"
       role="button"
@@ -14,15 +34,40 @@
       [attr.id]="'accordion-header-' + index"
       [attr.aria-expanded]="accordionItem.expanded"
       [attr.aria-controls]="'accordion-body-' + index">
-      <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
-        {{ item }}
+      <div class="example-accordion-item-header" (click)="accordionItem.toggle();handleAccordionToggle(board.boardId);">
+        <form class="example-form" *ngIf = "isEdit && boardName === board.boardName;else displayName" 
+        #board="ngForm" (ngSubmit)="$event.stopPropagation();saveChanges(board);">
+          <mat-form-field class="example-full-width" appearance="outline" (click) = "$event.stopPropagation();">
+            <mat-label>New Board Name</mat-label>
+            <input matInput [placeholder]="boardName" [value]="boardName"
+            name="boardName"
+            (click) = "$event.stopPropagation();"
+            maxLength = "40" ngModel>
+          </mat-form-field>
+          <div class="controls">
+            <button type="submit" id = "save-btn">
+              <mat-icon aria-hidden="false" aria-label="save" fontIcon="save"></mat-icon>
+            </button>
+            <button id = "cancel-btn" (click) = "$event.stopPropagation();handleCancel('edit')">
+              <mat-icon aria-hidden="false" aria-label="cancel" fontIcon="cancel"></mat-icon>
+            </button>
+          </div>
+        </form>
+        <ng-template #displayName>{{ board.boardName }}</ng-template>
         <span class="example-accordion-item-description">
-          
-          <button mat-stroked-button color="primary" class = "edit-btn">
-            <mat-icon aria-hidden="false" aria-label="edit" fontIcon="edit"></mat-icon>
-          </button>
-          <mat-icon aria-hidden="false" *ngIf = "accordionItem.expanded" aria-label="up" fontIcon="expand_less"></mat-icon>
+          <div class="controls">
+            <!-- <button  id = "save-btn" (click) = "$event.stopPropagation();saveChanges(board.boardId);">
+              <mat-icon aria-hidden="false" aria-label="save" fontIcon="save"></mat-icon>
+            </button> -->
+            <button *ngIf="!isEdit" id = "edit-btn" (click) = "$event.stopPropagation();editBoardName(board.boardId,board.boardName);">
+              <mat-icon aria-hidden="false" aria-label="edit" fontIcon="edit"></mat-icon>
+            </button>
+            <button *ngIf="!isEdit" id = "delete-btn" (click) = "$event.stopPropagation();deleteBoard(board.boardId);">
+              <mat-icon aria-hidden="false" aria-label="delete" fontIcon="delete"></mat-icon>
+            </button>
+            <mat-icon aria-hidden="false" *ngIf = "accordionItem.expanded" aria-label="up" fontIcon="expand_less"></mat-icon>
           <mat-icon aria-hidden="false" *ngIf = "!accordionItem.expanded" aria-label="down" fontIcon="expand_more"></mat-icon>
+          </div>
         </span>
       </div>
       <div
@@ -31,7 +76,7 @@
         [style.display]="accordionItem.expanded ? '' : 'none'"
         [attr.id]="'accordion-body-' + index"
         [attr.aria-labelledby]="'accordion-header-' + index">
-        <app-statusbox></app-statusbox>
+        <app-statusbox [boardId] = "board.boardId"></app-statusbox>
       </div>
     </cdk-accordion-item>
   </cdk-accordion>

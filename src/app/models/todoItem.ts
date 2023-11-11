@@ -11,6 +11,5 @@ enum Status {
         Backlog,
         InProgress,
         OnHold,
-        Rejected,
         Done
   }
