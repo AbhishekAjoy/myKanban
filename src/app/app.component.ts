@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy{
   public boardService = inject(BoardItemService);
   public todoService = inject(TodoItemService);
   
-  title = 'Todo Board';
+  title = 'myKanban';
   expandedIndex = 0;
   openBoardId:string = '';
   isEdit:boolean = false;
@@ -45,7 +45,6 @@ export class AppComponent implements OnInit, OnDestroy{
     this.isAdd = true;
   }
   createBoard(createBoardForm: NgForm){
-    console.log(createBoardForm.value.addBoardName);
    
     this.createSubscription$ = this.boardService.createBoard(createBoardForm.value.addBoardName)
                                 .pipe(take(1)).subscribe({

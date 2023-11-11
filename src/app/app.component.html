@@ -4,15 +4,16 @@
     <h1>{{title}}</h1>
     <form class="example-form" *ngIf = "isAdd;else showAddButton" 
         #createBoardForm="ngForm" (ngSubmit)="createBoard(createBoardForm);">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Board Name</mat-label>
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label *ngIf = "createBoardForm.pristine || createBoardForm.valid">Board Name</mat-label>
+            <mat-label *ngIf = "!createBoardForm.valid && createBoardForm.dirty" style="color:red">No special characters/trailing spaces</mat-label>
             <input matInput placeholder="Name"
             name="addBoardName"
             (click) = "$event.stopPropagation();"
-            maxLength = "40" ngModel>
+            maxLength = "40" required pattern = "^\w+(( )*\w+)*" ngModel>
           </mat-form-field>
           <div class="controls">
-            <button type="submit" id = "save-btn">
+            <button type="submit" id = "save-btn" [disabled]="!createBoardForm.valid">
               <mat-icon aria-hidden="false" aria-label="save" fontIcon="save"></mat-icon>
             </button>
             <button id = "cancel-btn" (click) = "handleCancel('add')">
@@ -37,16 +38,17 @@
       <div class="example-accordion-item-header" (click)="accordionItem.toggle();handleAccordionToggle(board.boardId);">
         <form class="example-form" *ngIf = "isEdit && boardName === board.boardName;else displayName" 
         #board="ngForm" (ngSubmit)="$event.stopPropagation();saveChanges(board);">
-          <mat-form-field class="example-full-width" appearance="outline" (click) = "$event.stopPropagation();">
-            <mat-label>New Board Name</mat-label>
+          <mat-form-field class="form-field" appearance="outline" (click) = "$event.stopPropagation();">
+            <mat-label *ngIf = "board.pristine || board.valid">New Board Name</mat-label>
+            <mat-label *ngIf = "!board.valid && board.dirty" style="color:red">No special characters/trailing spaces</mat-label>
             <input matInput [placeholder]="boardName" [value]="boardName"
             name="boardName"
             (click) = "$event.stopPropagation();"
-            maxLength = "40" ngModel>
+            maxLength = "40" pattern = "^\w+(( )*\w+)*" required ngModel>
           </mat-form-field>
           <div class="controls">
-            <button type="submit" id = "save-btn">
-              <mat-icon aria-hidden="false" aria-label="save" fontIcon="save"></mat-icon>
+            <button type="submit" id = "save-btn" [disabled]="!board.valid">
+              <mat-icon aria-hidden="false" aria-label="save" fontIcon="save" ></mat-icon>
             </button>
             <button id = "cancel-btn" (click) = "$event.stopPropagation();handleCancel('edit')">
               <mat-icon aria-hidden="false" aria-label="cancel" fontIcon="cancel"></mat-icon>
