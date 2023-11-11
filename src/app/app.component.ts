@@ -32,8 +32,9 @@ export class AppComponent implements OnInit, OnDestroy{
   title = 'myKanban';
   expandedIndex = 0;
   openBoardId:string = '';
-  isEdit:boolean = false;
-  isAdd: boolean = false;
+  isEditBoard:boolean = false;
+  isAddBoard: boolean = false;
+  isAddTodo: boolean = false;
   boardName:string = '';
   editBoardId:string = '';
   updateSubscription$:Subscription = new Subscription;
@@ -42,7 +43,13 @@ export class AppComponent implements OnInit, OnDestroy{
  
 
   addBoardHandler(){
-    this.isAdd = true;
+    this.isAddBoard = true;
+  }
+  addTodoHandler(){
+    this.isAddTodo = true;
+  }
+  todoCancel(){
+    this.isAddTodo = false;
   }
   createBoard(createBoardForm: NgForm){
    
@@ -51,7 +58,7 @@ export class AppComponent implements OnInit, OnDestroy{
                                   error: e => console.error(e.error),
                                   complete: () => this.boardService.getBoards()
                                 })
-    this.isAdd = false;
+    this.isAddBoard = false;
   }
   
   deleteBoard(id: string){
@@ -63,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy{
   }
   
   editBoardName( id:string, name: string){
-    this.isEdit = true;
+    this.isEditBoard = true;
     this.editBoardId = id;
     this.boardName = name;
   }
@@ -75,16 +82,16 @@ export class AppComponent implements OnInit, OnDestroy{
       error: e => console.error(e.error),
       complete: () => this.boardService.getBoards()
     });
-    this.isEdit = false;
+    this.isEditBoard = false;
     
   }
 
   handleCancel(mode:string){
     if(mode == "edit"){
-      this.isEdit = false;
+      this.isEditBoard = false;
     }
     else{
-      this.isAdd = false;
+      this.isAddBoard = false;
     }
   }
 

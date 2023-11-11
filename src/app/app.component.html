@@ -1,8 +1,9 @@
 
 <div class="board">
+  <h1>{{title}}</h1>
+  <app-add-todo *ngIf = "isAddTodo && !isAddBoard && !isEditBoard" (cancelEvent) = "todoCancel()"></app-add-todo>
   <div class = "header">
-    <h1>{{title}}</h1>
-    <form class="example-form" *ngIf = "isAdd;else showAddButton" 
+    <form class="example-form" *ngIf = "isAddBoard" 
         #createBoardForm="ngForm" (ngSubmit)="createBoard(createBoardForm);">
           <mat-form-field class="form-field" appearance="outline">
             <mat-label *ngIf = "createBoardForm.pristine || createBoardForm.valid">Board Name</mat-label>
@@ -21,9 +22,10 @@
             </button>
           </div>
     </form>
-    <ng-template #showAddButton>
-      <button mat-raised-button color="primary" (click) = "addBoardHandler()">Add Board</button>
-    </ng-template>
+    <div class="add-item">
+        <button *ngIf="!isAddBoard" mat-raised-button color="primary" (click) = "addBoardHandler()">Add Board</button>
+        <button *ngIf="!isAddBoard && !isAddTodo && !isEditBoard" mat-stroked-button color="primary" (click) = "addTodoHandler()">Add Todo</button>
+    </div>
   </div>
   <cdk-accordion class="example-accordion" *ngIf = "this.boardService.boards$ | async as boards">
     <cdk-accordion-item
@@ -36,7 +38,7 @@
       [attr.aria-expanded]="accordionItem.expanded"
       [attr.aria-controls]="'accordion-body-' + index">
       <div class="example-accordion-item-header" (click)="accordionItem.toggle();handleAccordionToggle(board.boardId);">
-        <form class="example-form" *ngIf = "isEdit && boardName === board.boardName;else displayName" 
+        <form class="example-form" *ngIf = "isEditBoard && boardName === board.boardName;else displayName" 
         #board="ngForm" (ngSubmit)="$event.stopPropagation();saveChanges(board);">
           <mat-form-field class="form-field" appearance="outline" (click) = "$event.stopPropagation();">
             <mat-label *ngIf = "board.pristine || board.valid">New Board Name</mat-label>
@@ -61,10 +63,10 @@
             <!-- <button  id = "save-btn" (click) = "$event.stopPropagation();saveChanges(board.boardId);">
               <mat-icon aria-hidden="false" aria-label="save" fontIcon="save"></mat-icon>
             </button> -->
-            <button *ngIf="!isEdit" id = "edit-btn" (click) = "$event.stopPropagation();editBoardName(board.boardId,board.boardName);">
+            <button *ngIf="!isEditBoard" id = "edit-btn" (click) = "$event.stopPropagation();editBoardName(board.boardId,board.boardName);">
               <mat-icon aria-hidden="false" aria-label="edit" fontIcon="edit"></mat-icon>
             </button>
-            <button *ngIf="!isEdit" id = "delete-btn" (click) = "$event.stopPropagation();deleteBoard(board.boardId);">
+            <button *ngIf="!isEditBoard" id = "delete-btn" (click) = "$event.stopPropagation();deleteBoard(board.boardId);">
               <mat-icon aria-hidden="false" aria-label="delete" fontIcon="delete"></mat-icon>
             </button>
             <mat-icon aria-hidden="false" *ngIf = "accordionItem.expanded" aria-label="up" fontIcon="expand_less"></mat-icon>

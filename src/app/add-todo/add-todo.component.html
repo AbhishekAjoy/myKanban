@@ -1,0 +1,47 @@
+<div class="container">
+    <form class="example-form"
+        #createTodoForm="ngForm" (ngSubmit)="createTodo(createTodoForm);">
+
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label *ngIf = "addTodoName.pristine || addTodoName.valid">Todo Name</mat-label>
+            <mat-label *ngIf = "!addTodoName.valid && addTodoName.dirty" style="color:red">No special characters/trailing spaces</mat-label>
+            <input matInput placeholder="Name"
+            name="addTodoName"
+            maxLength = "40" required pattern = "^\w+(( )*\w+)*" #addTodoName = "ngModel" [(ngModel)] = "todo.name">
+          </mat-form-field>
+          <table>
+            <thead>
+                <th></th>
+                <th>Days</th>
+                <th>Hours</th>
+                <th>Minutes</th>
+                <th>Seconds</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Estimate:</th>
+                    <td><input matInput type="number" placeholder="ddd" name="edays" min = "0" max = "365"  ngModel></td>
+                    <td><input matInput type="number" placeholder="hh" name="ehours" min = "0" max = "23"  ngModel></td>
+                    <td><input matInput type="number" placeholder="mm" name="eminutes" min = "0" max = "59"  ngModel></td>
+                    <td><input matInput type="number" placeholder="ss" name="eseconds" min = "0" max = "59"  ngModel></td>
+                </tr>
+                <tr>
+                    <th>Time Spent:</th>
+                    <td><input matInput type="number" placeholder="ddd" name="tdays" min = "0" max = "365"  ngModel></td>
+                    <td><input matInput type="number" placeholder="hh" name="thours" min = "0" max = "23"  ngModel></td>
+                    <td><input matInput type="number" placeholder="mm" name="tminutes" min = "0" max = "59"  ngModel></td>
+                    <td><input matInput type="number" placeholder="ss" name="tseconds" min = "0" max = "59"  ngModel></td>
+                </tr>
+            </tbody>
+          </table>
+
+          <div class="controls">
+            <button type="submit" id = "save-btn" [disabled]="!createTodoForm.valid">
+              <mat-icon aria-hidden="false" aria-label="save" fontIcon="save"></mat-icon>
+            </button>
+            <button id = "cancel-btn" (click) = "handleCancel()">
+              <mat-icon aria-hidden="false" aria-label="cancel" fontIcon="cancel"></mat-icon>
+            </button>
+          </div>
+    </form>
+</div>

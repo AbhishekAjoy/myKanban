@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
-    gap: 50px;
+    margin-top: 20px;
+    gap: 20px;
 }
 
 .header{
@@ -11,7 +11,7 @@
     flex-direction: row;
     width:80dvw;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 
 .example-accordion {
@@ -57,6 +57,13 @@
   .example-accordion-item:last-child {
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+  }
+
+
+  .add-item{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
   }
 
   .controls{
