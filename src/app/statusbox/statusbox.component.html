@@ -10,7 +10,10 @@
       class="example-list"
       (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let item of todos" cdkDrag>
-        {{item}}
+        {{item.name}}
+        <button class = "delete-btn" (click) = "deleteTodo(item.id)">
+          <mat-icon class = "delete-icon" aria-hidden="false" aria-label="delete" fontIcon="close"></mat-icon>
+        </button>
       </div>
     </div>
   </div>
@@ -28,7 +31,10 @@
       class="example-list"
       (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let item of progress" cdkDrag>
-        {{item}}
+        {{item.name}}
+        <button class = "delete-btn" (click) = "deleteTodo(item.id)">
+          <mat-icon class = "delete-icon" aria-hidden="false" aria-label="delete" fontIcon="close"></mat-icon>
+        </button>
       </div>
     </div>
   </div>
@@ -44,7 +50,10 @@
       class="example-list"
       (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let item of onhold" cdkDrag>
-        {{item}}
+        {{item.name}}
+        <button class = "delete-btn" (click) = "deleteTodo(item.id)">
+          <mat-icon class = "delete-icon" aria-hidden="false" aria-label="delete" fontIcon="close"></mat-icon>
+        </button>
       </div>
     </div>
   </div>
@@ -60,7 +69,10 @@
       class="example-list"
       (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let item of done" cdkDrag>
-        {{item}}
+        {{item.name}}
+        <button class = "delete-btn" (click) = "deleteTodo(item.id)">
+          <mat-icon class = "delete-icon" aria-hidden="false" aria-label="delete" fontIcon="close"></mat-icon>
+        </button>
       </div>
     </div>
   </div>

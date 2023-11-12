@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, inject } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -8,7 +8,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { BoardItemService } from '../services/board-item.service';
 import { TodoItem } from '../models/todoItem';
-import { Observable, map } from 'rxjs';
+import { Observable, Subscription, map, take } from 'rxjs';
 import { TodoItemService } from '../services/todo-item.service';
 
 
@@ -17,25 +17,15 @@ import { TodoItemService } from '../services/todo-item.service';
   templateUrl: './statusbox.component.html',
   styleUrls: ['./statusbox.component.css']
 })
-export class StatusboxComponent implements OnChanges{
+export class StatusboxComponent implements OnChanges,OnDestroy{
+  ngOnDestroy(): void {
+    this.deleteTodoSubscription$.unsubscribe();
+    this.fetchTodoSubscription$.unsubscribe();
+  }
   ngOnChanges(changes: SimpleChanges): void {
 
     if (changes['boardId'] && changes['boardId'].currentValue) {
-      this.boardService.getTodosForBoard(this.boardId).subscribe({
-        next: response => {
-          if(response !== null){
-            this.todoItems = response;
-            this.todos = response.filter(t => t.status == 0).map(x => x.name);
-            this.progress = response.filter(t => t.status == 1).map(x => x.name);
-            this.onhold = response.filter(t => t.status == 2).map(x => x.name);
-            this.done = response.filter(t => t.status == 3).map(x => x.name);
-          }
-          
-        },
-        error: e => {
-          console.error(e.error);
-        }
-      });
+      this.fetchTodosForBoard();
     }
   }
 
@@ -45,16 +35,19 @@ export class StatusboxComponent implements OnChanges{
   public todoService = inject(TodoItemService);
 
   todoItems: TodoItem[] =[];
-  todos:string[] = [];
-  progress:string[] = [];
-  onhold:string[] = [];
-  done:string[] = [];
+  todos:TodoItem[] = [];
+  progress:TodoItem[] = [];
+  onhold:TodoItem[] = [];
+  done:TodoItem[] = [];
+  deleteTodoSubscription$: Subscription = new Subscription;
+  fetchTodoSubscription$: Subscription = new Subscription;
 
-  drop(event: CdkDragDrop<string[]>) {
+
+  drop(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      let item = this.todoItems.find(t => t.name === event.previousContainer.data[0]);
+      let item = this.todoItems.find(t => t.name === event.previousContainer.data[0].name);
       if(item !== undefined){
         let status = event.container.id.split('-').pop();
         if(status !== undefined){
@@ -76,6 +69,30 @@ export class StatusboxComponent implements OnChanges{
     }
   }
 
+  deleteTodo(id: string){
+    this.deleteTodoSubscription$ = this.todoService.deleteTodoItem(id).pipe(take(1)).subscribe({
+      error: e => console.error(e),
+      complete: () => this.fetchTodosForBoard()
+    })
+  }
+
+  fetchTodosForBoard(){
+    this.fetchTodoSubscription$ = this.boardService.getTodosForBoard(this.boardId).subscribe({
+      next: response => {
+        if(response !== null){
+          this.todoItems = response;
+          this.todos = response.filter(t => t.status == 0);
+          this.progress = response.filter(t => t.status == 1);
+          this.onhold = response.filter(t => t.status == 2);
+          this.done = response.filter(t => t.status == 3);
+        }
+        
+      },
+      error: e => {
+        console.error(e.error);
+      }
+    });
+  }
   saveBoard(boardId: string){
     console.log('Save todos '+boardId);
   }

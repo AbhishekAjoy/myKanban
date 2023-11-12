@@ -60,3 +60,21 @@
   .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
+
+  .delete-btn{
+    min-width: fit-content;
+    padding:0px;
+    color:red;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .delete-btn:hover{
+    color:white;
+    background-color: red;
+  }
+
+  .delete-icon{
+    transform: scale(0.7);
+  } 
