@@ -4,6 +4,7 @@
     margin-left: 5dvw;
     gap:20px;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
 }
 .example-container {
