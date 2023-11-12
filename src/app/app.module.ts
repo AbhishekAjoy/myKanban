@@ -12,6 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select'
 import {FormsModule} from '@angular/forms';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 
@@ -31,6 +32,7 @@ import { AddTodoComponent } from './add-todo/add-todo.component';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatSelectModule,
     FormsModule
   ],
   providers: [],

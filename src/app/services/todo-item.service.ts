@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
-import { TodoItem } from '../models/todoItem';
+import { TodoCreate, TodoItem } from '../models/todoItem';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,8 +13,8 @@ export class TodoItemService {
   private baseURL = environment.apiUrl + "todoItems";
   public updatedTodoItems:TodoItem[] = [];
 
-  createTodoItem(newTodoItem: TodoItem){
-    return this.http.post<TodoItem>(this.baseURL,newTodoItem);
+  createTodoItem(newTodoItem: TodoCreate){
+    return this.http.post<TodoCreate>(this.baseURL,newTodoItem);
   }
 
   bulkUpdateTodoItems(){

@@ -9,6 +9,7 @@
             name="addTodoName"
             maxLength = "40" required pattern = "^\w+(( )*\w+)*" #addTodoName = "ngModel" [(ngModel)] = "todo.name">
           </mat-form-field>
+
           <table>
             <thead>
                 <th></th>
@@ -34,6 +35,24 @@
                 </tr>
             </tbody>
           </table>
+
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select name = "status" [(ngModel)] = "todo.status" required>
+                <mat-option *ngFor = "let status of statuses;let index = index;" [value]="index">{{status}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field *ngIf = "this.boardService.boards$ | async as boards;else AddBoardWarn">
+            <mat-label>Board</mat-label>
+            <mat-select name = "board" [(ngModel)]="todo.boardId" required>
+                <mat-option *ngFor = "let board of boards" [value]="board.boardId">{{board.boardName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <ng-template #AddBoardWarn>
+            Add Board First
+          </ng-template>
 
           <div class="controls">
             <button type="submit" id = "save-btn" [disabled]="!createTodoForm.valid">

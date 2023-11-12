@@ -1,7 +1,7 @@
 import { AfterContentInit, Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { BoardItemService } from './services/board-item.service';
 import { BoardItem } from './models/boardItem';
-import { Observable, Subject, Subscription, map, take } from 'rxjs';
+import { Observable, Subject, Subscription, map, take, tap } from 'rxjs';
 import { TodoItemService } from './services/todo-item.service';
 import { NgForm } from '@angular/forms';
 
