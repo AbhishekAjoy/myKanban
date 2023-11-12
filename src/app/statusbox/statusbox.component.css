@@ -1,8 +1,8 @@
 .statuses{
     display: flex;
-    width:70dvw;
-    margin-left: 5dvw;
-    gap:20px;
+    width:75dvw;
+    margin-left: 2.5dvw;
+    gap:15px;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
@@ -79,3 +79,23 @@
   .delete-icon{
     transform: scale(0.7);
   } 
+
+  @media only screen and (max-width: 600px) {
+    h2{
+      font-size: 1rem;
+    }
+
+    .statuses{
+      gap: 5px;
+    }
+
+    .example-container{
+      min-width: 40px;
+      width: 30%;
+    }
+
+    .example-box{
+      display: flex;
+      flex-direction: column;
+    }
+  }
