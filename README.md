@@ -1,5 +1,14 @@
 # Todo
 
+This is a todo app for personal use.
+Features:
+-can create multiple boards
+-can add todos
+-drag and drop to change todo status
+
+#Live Demo:
+https://mykanbanclient.azurewebsites.net/
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.3.
 
 ## Development server
