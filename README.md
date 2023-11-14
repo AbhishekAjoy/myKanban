@@ -6,6 +6,9 @@ Features:
 -can add todos
 -drag and drop to change todo status
 
+Todo:
+-Authentication, so that users can have their own board
+
 #Live Demo:
 https://mykanbanclient.azurewebsites.net/
 
