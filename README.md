@@ -3,9 +3,9 @@
 This is a todo app for personal use.
 
 ### Features:
--can create multiple boards
--can add todos
--drag and drop to change todo status
+-can create multiple boards  
+-can add todos  
+-drag and drop to change todo status  
 
 ### In progress:
 -Authentication, so that users can have their own board
